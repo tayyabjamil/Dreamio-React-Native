@@ -7,9 +7,9 @@ const DreamioImageView = props =>{
     return (
         <View style={Styles.imgContainer}>
         <Image 
-          source={require('../../../assets/images/background.png')}/>
+          source={require('../../assets/images/background.png')}/>
         <Image style={{ position: 'absolute', top: '50%' }}
-          source={require('../../../assets/images/dreamio.png')}/>
+          source={require('../../assets/images/dreamio.png')}/>
       </View>
     )
 }

@@ -1,130 +1,109 @@
 
 import React, { Component } from 'react';
 import {
-  View, Text, TextInput, TouchableOpacity, Image,Button,
-  KeyboardAvoidingView, SafeAreaView, ScrollView,Alert
+  View, Text, TextInput, TouchableOpacity, Image, Button,
+  KeyboardAvoidingView, SafeAreaView, ScrollView, Alert
 } from 'react-native';
 import Styles from "./Styles";
 import { KeyboardAvoidingScrollView } from 'react-native-keyboard-avoiding-scroll-view';
-import TextField from '../Components/Common/TextField/textField'
-import ButtonSignUp from '../Components/Common/ButtonSignUp/ButtonSignUp'
-import DreamioImgView from '../Components/Common/DreamioImageView/DreamioImageView'
-import SocailImageView from '../Components/Common/SocialImageView/socailImageView'
+import TextField from '../Components/TextField/textField'
+import ButtonSignUp from '../Components/ButtonSignUp/ButtonSignUp'
+import DreamioImgView from '../Components/DreamioImageView/DreamioImageView'
+import SocailImageView from '../Components/SocialImageView/socailImageView'
 
-import Colors from '../Components/Common/Constants/colors'
-import Constants from '../Components/Common/Constants/Validations'
+import Colors from '../Common/Colors'
+import Validations from '../Common/Validations'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import AccountModel from '../models/AccountModel'
-import AccountApi from '../Components/Common/Api/AccountApi'
+import AccountApi from '../Api/AccountApi'
+import Constant from '../Common/Constant'
 export default class SignUpScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userNameText:'',
-      emailText:'',
-      passwordText:'',
-      userNameValid:true,
-      emailValid:true,
-      passwordValid:true,
-      provider:'default',
-      user_type:'user'
- 
+      userNameText: Constant.defaultInput,
+      emailText: Constant.defaultInput,
+      passwordText: Constant.defaultInput,
+      userNameValid: true,
+      emailValid: true,
+      passwordValid: true,
+      provider: Constant.defaultProvider,
+      user_type: Constant.userType
+
     };
-    
-  }
-  
 
-  parentCallBackEmail = (data) => {
-    this.setState({ emailText: data })
- }
- parentCallBackUsername = data =>{
-     this.setState({userNameText:data})
- }
- parentCallBackEmailValid = (data) => {
-  this.setState({ emailValid: data })
-}
- parentCallBackPassword = (data) => {
-    this.setState({ passwordText: data })
-}
+  }
 
- validateEmail = () => {
-  let checkEmail
-   checkEmail = Constants.checkEmail(this.state.emailText)
-  if(checkEmail===false){
-    this.setState({emailValid:false})
-    
-  }else{
-    this.setState({emailValid:true})
-  }
-  }
-  ValidateUserName = () => {
-    let checkUsername
-     checkUsername = Constants.checkUsername(this.state.userNameText)
-    if(checkUsername===false){
-      this.setState({userNameValid:false})
-      
-    }else{
-      this.setState({userNameValid:true})
+
+  parentCallBackFunction = (text, type) => {
+    if (type === "username") {
+      this.setState({ userNameText: text })
+    } else if (type === "email") {
+      this.setState({ emailText: text })
+    } else if (type === "password") {
+      this.setState({ passwordText: text })
     }
-    }
- validatePassword = () => {
- let  checkPassword = Constants.checkPassword(this.state.passwordText)   
-   if(checkPassword===false){
-    this.setState({passwordValid:false})
-  
-  }else{
-    this.setState({passwordValid:true})
-   }
-  
- }
- validationCheck =()=>{
-     this.ValidateUserName()
-     this.validateEmail()
-     this.validatePassword()
-
- }
-  handleSubmit=async()=>{
-await this.validationCheck()
-await AccountApi.SignUpApi(this.state)
   }
- 
+
+  isFormFilled() {
+    let checkPassword = Validations.checkPassword(this.state.passwordText)
+    let checkEmail = Validations.checkEmail(this.state.emailText)
+    let checkuserName = Validations.checkUsername(this.state.userNameText)
+    if (checkEmail && checkPassword && checkuserName) {
+      return true
+    }
+    if (!checkuserName) {
+      Alert.alert('invalid username')
+    } else if (!checkEmail) {
+      Alert.alert('invalid email')
+    } else if (!checkPassword) {
+      Alert.alert('invalid password')
+    }
+    return false
+  }
+  handleSubmit = async () => {
+    let response = AccountApi.signUpApi(this.state)
+    .then((response) => {
+      if (response.code == 200) {
+        alert(response.message)
+      } else {
+        alert("Failed Login")
+      }
+
+    });
+
+    } 
+  
+
   render() {
     return (
       <SafeAreaView style={Styles.container}>
-       
-          <KeyboardAvoidingScrollView >
-            <DreamioImgView />
-            <View style={Styles.labelView}>
-              <Text style={Styles.signInLabel}>Create an Account</Text>
-            </View>
-         <View style={Styles.inputContainerSignUp}>
-         <TextField placeholder={'Username'}   parentCallBack = {this.parentCallBackUsername}/> 
-         {this.state.userNameValid == false &&
-               <Text style={Styles.errorLabel}>Invalid Username</Text>
-         }
-             <TextField placeholder={'E-mail'}   parentCallBack = {this.parentCallBackEmail}/> 
-              {this.state.emailValid == false && 
-               <Text style={Styles.errorLabel}>Invalid Email</Text>
-              }
-             <TextField placeholder={'Password'}   parentCallBack = {this.parentCallBackPassword}/> 
-              {this.state.passwordValid == false &&
-             <Text style={Styles.errorLabel}>Invalid Passoword</Text>
-              }
-             </View>
+
+        <KeyboardAvoidingScrollView >
+          <DreamioImgView />
+          <View style={Styles.labelView}>
+            <Text style={Styles.signInLabel}>Create an Account</Text>
+          </View>
+          <View style={Styles.inputContainerSignUp}>
+            <TextField placeholder={'Username'} type={'username'} parentCallBack={this.parentCallBackFunction} />
+            <TextField placeholder={'E-mail'} type="email" parentCallBack={this.parentCallBackFunction} />
+            <TextField placeholder={'Password'} type="password" parentCallBack={this.parentCallBackFunction} />
+          </View>
           <View style={Styles.btnSignupView}>
             <ButtonSignUp btnLabel={'Sign Up & Subscribe'} data={this.handleSubmit} />
-            </View>
+          </View>
           <View style={Styles.socailImageSignupView}>
             <SocailImageView />
-            </View>
-           <TouchableWithoutFeedback style={Styles.noAccontView} onPress={()=>this.props.navigation.navigate('SignIn')}>
-           
-              <Text style={Styles.noAccountLabel}>Already have an account ?</Text>
-              <Text style={Styles.labelSignup}>Sign In</Text>
-            </TouchableWithoutFeedback>
-          </KeyboardAvoidingScrollView>
-      
+          </View>
+          <TouchableWithoutFeedback style={Styles.noAccontView} onPress={() => this.props.navigation.navigate('SignIn')}>
+
+            <Text style={Styles.noAccountLabel}>Already have an account ?</Text>
+            <Text style={Styles.labelSignup}>Sign In</Text>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingScrollView>
+
       </SafeAreaView>
     );
   }
+
 }

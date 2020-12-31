@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { TextInput, View, Text } from 'react-native'
-import SignInScreen from '../../../screens/SignInScreen'
-import SignUp from '../../../screens/SignInScreen'
-import Colors from '../../../Common/Colors'
+import Colors from '../../Common/Colors'
 import Styles from './Styles'
 const TextField = props => {
   

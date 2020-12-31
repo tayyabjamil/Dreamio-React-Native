@@ -7,13 +7,13 @@ const SocailImageView = props =>{
     return (
         <View style={Styles.iconContainer}>
         <Image
-          source={require('../../../assets/icons/Apple.png')}
+          source={require('../../assets/icons/Apple.png')}
         />
         <Image
-          source={require('../../../assets/icons/Facebook.png')}
+          source={require('../../assets/icons/Facebook.png')}
         />
         <Image
-          source={require('../../../assets/icons/Google.png')}
+          source={require('../../assets/icons/Google.png')}
         />
       </View>
     )

@@ -4,24 +4,24 @@ import {
   View, Text, TextInput, TouchableOpacity, Image, Button,
   KeyboardAvoidingView, SafeAreaView, ScrollView, Alert
 } from 'react-native';
-import Styles from "./Styles";
+import TextField from '../Components/TextField/textField'
 import { KeyboardAvoidingScrollView } from 'react-native-keyboard-avoiding-scroll-view';
-import TextField from '../Components/Common/TextField/textField'
-import ButtonSignIn from '../Components/Common/ButtonSignIn/ButtonSignIn'
-import DreamioImgView from '../Components/Common/DreamioImageView/DreamioImageView'
-import SocailImageView from '../Components/Common/SocialImageView/socailImageView'
+import ButtonSignIn from '../Components/ButtonSignIn/ButtonSignIn'
+import DreamioImgView from '../Components/DreamioImageView/DreamioImageView'
+import SocailImageView from '../Components/SocialImageView/socailImageView'
+import Styles from "./Styles";
 
-import Colors from '../Components/Common/Constants/colors'
-import Constants from '../Components/Common/Constants/Validations'
+import Validations from '../Common/Validations'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import AccountModel from '../models/AccountModel'
-import AccountApi from '../Components/Common/Api/AccountApi'
+
+import AccountApi from '../Api/AccountApi'
+import Constant from '../Common/Constant'
 export default class SignInScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      emailText: '',
-      passwordText: '',
+      emailText: Constant.defaultInput,
+      passwordText: Constant.defaultInput,
       emailValid: true,
       passwordValid: true
 
@@ -29,23 +29,21 @@ export default class SignInScreen extends Component {
 
   }
 
-  parentCallBackEmail = (data) => {
-    this.setState({ emailText: data })
+  parentCallBackFunction = (text, type) => {
+    if (type === "email") {
+      this.setState({ emailText: text })
+    } else if (type === "password") {
+      this.setState({ passwordText: text })
+    }
   }
-
-  parentCallBackPassword = (data) => {
-    this.setState({ passwordText: data })
-  }
-
-
 
   isFormFilled() {
-    let checkPassword = Constants.checkPassword(this.state.passwordText)
-    let checkEmail = Constants.checkEmail(this.state.emailText)
+    let checkPassword = Validations.checkPassword(this.state.passwordText)
+    let checkEmail = Validations.checkEmail(this.state.emailText)
     if (checkEmail && checkPassword) {
       return true
     }
-    if (!emailText) {
+    if (!checkEmail) {
       Alert.alert('invalid email')
     } else if (!checkPassword) {
       Alert.alert('invalid password')
@@ -55,12 +53,14 @@ export default class SignInScreen extends Component {
 
   handleSubmit = async () => {
     if (this.isFormFilled()) {
-      let response = await AccountApi.signInApi(this.state)
-      if(response.status){
+       AccountApi.signInApi(this.state).then((response) => {
+        if (response.code == 200) {
+          alert(response.message)
+        } else {
+          alert("Failed Login")
+        }
 
-      }else{
-        
-      }
+      });
 
     }
   }
@@ -74,8 +74,8 @@ export default class SignInScreen extends Component {
             <Text style={Styles.signInLabel}> Sign in to your account </Text>
           </View>
           <View style={Styles.inputContainerSignIn}>
-            <TextField placeholder={'E-mail'} type={'email'} parentCallBack={this.parentCallBackEmail} />
-            <TextField placeholder={'Password'} type={'password'} parentCallBack={this.parentCallBackPassword} />
+            <TextField placeholder={'E-mail'} type={'email'} parentCallBack={this.parentCallBackFunction} />
+            <TextField placeholder={'Password'} type={'password'} parentCallBack={this.parentCallBackFunction} />
           </View>
           <View style={Styles.btnsigninViewView}>
             <ButtonSignIn btnLabel={'Sign In'} data={this.handleSubmit} />

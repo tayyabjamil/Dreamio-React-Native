@@ -1,20 +1,20 @@
 import { Dimensions } from "react-native";
-import Colors from '../../Common/Constants/colors'
+import Colors from '../../Common/Colors'
 const Screen = {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height*2
 }
 export default {  
     btnView:{
-height:'10%',
+height:'15%',
 
 
     },
     btnContainer:{
         marginLeft:'10%',
         marginRight:'10%',
-        marginTop:'5%',
-        marginBottom:'5%',
+        marginTop:'10%',
+        marginBottom:'10%',
         paddingTop:'3%',
         paddingBottom:'3%',
         backgroundColor:'#0F0F0F',
