@@ -2,6 +2,7 @@ import axios from 'axios'
 import AccountModel from '../models/AccountModel'
 import ApiResultModel from '../models/ApiResultModel'
 import Constant from '../Common/Constant'
+
 const signInApi = (data,response) => {
 
 
@@ -15,7 +16,7 @@ const signInApi = (data,response) => {
 
       if (response.data.code === 200) {
         let dataModel = new AccountModel(response.data.data)
-        let apiResult = new ApiResultModel(response.data.code, response.data.message)
+        let apiResult = new ApiResultModel(response.data.code, response.data.message,response.data.data.jwt_token)
        return apiResult
       }
 

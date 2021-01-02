@@ -36,11 +36,11 @@ export default class SignUpScreen extends Component {
 
 
   parentCallBackFunction = (text, type) => {
-    if (type === "username") {
-      this.setState({ userNameText: text })
-    } else if (type === "email") {
+    if (type === Constant.typeUsername ) {
+      this.setState({ usernameText: text })
+    } else if (type === Constant.typeEmail) {
       this.setState({ emailText: text })
-    } else if (type === "password") {
+    } else if (type === Constant.typePassword) {
       this.setState({ passwordText: text })
     }
   }
@@ -65,7 +65,10 @@ export default class SignUpScreen extends Component {
     let response = AccountApi.signUpApi(this.state)
     .then((response) => {
       if (response.code == 200) {
+
         alert(response.message)
+        this.props.navigaion.navigate('SignIn')
+     
       } else {
         alert("Failed Login")
       }
@@ -85,9 +88,9 @@ export default class SignUpScreen extends Component {
             <Text style={Styles.signInLabel}>Create an Account</Text>
           </View>
           <View style={Styles.inputContainerSignUp}>
-            <TextField placeholder={'Username'} type={'username'} parentCallBack={this.parentCallBackFunction} />
-            <TextField placeholder={'E-mail'} type="email" parentCallBack={this.parentCallBackFunction} />
-            <TextField placeholder={'Password'} type="password" parentCallBack={this.parentCallBackFunction} />
+            <TextField placeholder={Constant.typeUsername} type={Constant.typeUsername} parentCallBack={this.parentCallBackFunction} />
+            <TextField placeholder={Constant.typeEmail} type={Constant.typeEmail} parentCallBack={this.parentCallBackFunction} />
+            <TextField placeholder={Constant.typePassword} type={Constant.typePassword} parentCallBack={this.parentCallBackFunction} />
           </View>
           <View style={Styles.btnSignupView}>
             <ButtonSignUp btnLabel={'Sign Up & Subscribe'} data={this.handleSubmit} />

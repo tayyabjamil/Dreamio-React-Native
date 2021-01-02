@@ -16,6 +16,7 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 import AccountApi from '../Api/AccountApi'
 import Constant from '../Common/Constant'
+import AsyncStorage from '@react-native-community/async-storage'
 export default class SignInScreen extends Component {
   constructor(props) {
     super(props);
@@ -23,16 +24,16 @@ export default class SignInScreen extends Component {
       emailText: Constant.defaultInput,
       passwordText: Constant.defaultInput,
       emailValid: true,
-      passwordValid: true
-
+      passwordValid: true,
+      storagekey:'@save_token'
     };
 
   }
 
   parentCallBackFunction = (text, type) => {
-    if (type === "email") {
+    if (type === Constant.typeEmail) {
       this.setState({ emailText: text })
-    } else if (type === "password") {
+    } else if (type === Constant.typePassword) {
       this.setState({ passwordText: text })
     }
   }
@@ -52,9 +53,13 @@ export default class SignInScreen extends Component {
   }
 
   handleSubmit = async () => {
+    const token=''
     if (this.isFormFilled()) {
-       AccountApi.signInApi(this.state).then((response) => {
+     AccountApi.signInApi(this.state).then((response) => {
         if (response.code == 200) {
+          
+           AsyncStorage.setItem('token',response.jwt_token)
+          this.props.navigation.navigate('Home')
           alert(response.message)
         } else {
           alert("Failed Login")
@@ -74,8 +79,9 @@ export default class SignInScreen extends Component {
             <Text style={Styles.signInLabel}> Sign in to your account </Text>
           </View>
           <View style={Styles.inputContainerSignIn}>
-            <TextField placeholder={'E-mail'} type={'email'} parentCallBack={this.parentCallBackFunction} />
-            <TextField placeholder={'Password'} type={'password'} parentCallBack={this.parentCallBackFunction} />
+         
+           <TextField placeholder={Constant.typeEmail} type={Constant.typeEmail} parentCallBack={this.parentCallBackFunction} />
+            <TextField placeholder={Constant.typePassword} type={Constant.typePassword} parentCallBack={this.parentCallBackFunction} />
           </View>
           <View style={Styles.btnsigninViewView}>
             <ButtonSignIn btnLabel={'Sign In'} data={this.handleSubmit} />

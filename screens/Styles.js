@@ -32,7 +32,35 @@ export default {
         justifyContent:'center'
     
     },
-
+    containerHome: {
+       backgroundColor:Colors.primaryColor,
+       flex: 1,
+       padding: '5%',
+     },
+  containerSwitch: {
+    flexDirection:'column',
+    paddingTop:'5%',
+    paddingBottom:'5%'
+},
+  ContainerHomeBottom:{
+    height:hp('13%'),
+    
+    borderWidth:0.3,
+    borderRadius:6,
+    marginLeft:'10%',
+    marginRight:'10%',
+    borderColor:Colors.secondryColor,
+    borderStyle: 'dashed',
+    padding: '5%',
+     marginTop:'5%'
+    
+},
+homeLabel:{
+  color:Colors.secondryColor,
+  paddingLeft:5,
+  fontSize:14,
+  fontFamily:'Grotex-Micro'
+},
     labelView:{
        height:'10%',
        marginTop:'10%', 

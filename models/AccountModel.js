@@ -8,13 +8,13 @@ class Account {
     _id = String
 
     constructor(data) {
-        this.date = data.date ?? '';
-        this.email = data.email ?? '';
-        this.jwt_token = data.jwt_token ?? '';
-        this.name = data.name ?? '';
-        this.provider = data.provider ??''
-        this.provider_id = data.provider_id ?? ''
-        this._id = data._id ?? ''
+        this.date      =         data.date ?? '';
+        this.email     =        data.email ?? '';
+        this.jwt_token =    data.jwt_token ?? '';
+        this.name      =         data.name ?? '';
+        this.provider  =     data.provider ?? ''
+        this.provider_id =  data.provider_id ?? ''
+        this._id       =           data._id ?? ''
     }
 }
 export default Account
