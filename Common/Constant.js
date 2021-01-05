@@ -3,6 +3,9 @@ const Constants = {
    SigninEndPoint:'login_user',
    SignUpEndPoint:'create_user',
    HomeEndPoint:'get_all_meditations',
+    
+   detailEndPoint: 'sounds_by_type',
+ 
    defaultProvider:'',
    defaultInput:'',
    userType:'user',
@@ -14,6 +17,5 @@ const Constants = {
    typeEmail:'email',
    typeUsername:'username',
    typePassword:'password'
-
 }
 export default Constants

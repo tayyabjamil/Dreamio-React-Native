@@ -1,9 +1,17 @@
 import React from 'react';
-import {View,Switch,Text,Image} from 'react-native'
+import {View,Switch,Text,Image,TouchableOpacity} from 'react-native'
+// import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import DetailScreen from '../../screens/DetailScreen';
 import Styles from './Styles'
+
 const HomeSwitchBox = props => {
+
+const DetailScreen =(label)=>{
+console.log(label)    
+}
     return (
-        <View style={Styles.Container}>
+        // <TouchableOpacity style={Styles.Container} onPress={DetailScreen(props.switchLabel)}>
+        <TouchableOpacity style={Styles.Container} onPress={props.onPress}>
             <View style={Styles.flexRow}>
             <Text style={Styles.switchLabel}>{props.switchLabel}</Text>
            <View >
@@ -20,7 +28,7 @@ const HomeSwitchBox = props => {
       />
       </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 

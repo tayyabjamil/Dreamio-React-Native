@@ -6,20 +6,21 @@ import { createStackNavigator } from 'react-navigation-stack'
 import SignInScreen from '../screens/SignInScreen'
 import SignUpScreen from '../screens/SignUpScreen'
 import HomeScreen from '../screens/HomeScreen'
-
+import DetailScreen from '../screens/DetailScreen'
 
 const screens =  {
-    
-    SignIn :{
-        screen:SignInScreen,
+    Home :{
+        screen:HomeScreen,
         navigationOptions:{
             headerShown: false,  
           
         } 
         
     },
-    Home :{
-        screen:HomeScreen,
+   
+    
+    SignIn :{
+        screen:SignInScreen,
         navigationOptions:{
             headerShown: false,  
           
@@ -33,7 +34,16 @@ const screens =  {
             headerShown: false,
           
         }
-    }
-    }
+    },
+    Detail :{
+        screen:DetailScreen,
+        navigationOptions:{
+            headerShown: false,  
+          
+        } 
+        
+    },
+       
+}
     const AccountStack = createStackNavigator(screens)
 export default createAppContainer(AccountStack)

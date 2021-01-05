@@ -16,10 +16,10 @@ export default class HomeScreen extends Component {
     };
 
   }
-  componentDidMount() {
+  componentDidMount() {   
     this.getHomeData()
 
-  }
+  }   
 
   getHomeData = async () => {
     const token = await AsyncStorage.getItem('token')
@@ -30,6 +30,9 @@ export default class HomeScreen extends Component {
       });
     }
   }
+  detailScreenNav=()=>{
+
+ }
   render() {
 
     return (
@@ -44,7 +47,12 @@ export default class HomeScreen extends Component {
                  <HomeSwitchBox
                   switchLabel={item.item.name}
                   switchDescripton={item.item.description}
-                  imageUri={item.item.image}>
+                  imageUri={item.item.image}
+                  onPress={() => this.props.navigation.navigate('Detail', {
+                    detailId: item.item._id,
+                  
+                  })}
+               >
                  </HomeSwitchBox>
                </View>
             )}>
